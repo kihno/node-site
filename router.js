@@ -23,7 +23,7 @@ const router = {
                 }); 
                 break;
 
-            case "/contact": 
+            case "/contact-me": 
                 fs.readFile('contact-me.html', (err, data) => {  
                 if(err){
                     console.log(err); 
