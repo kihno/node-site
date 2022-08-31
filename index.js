@@ -1,45 +1,17 @@
 const http = require('http');
-const path = require('path');
 const url = require('url');
-const fs = require('fs');
+const router = require('./router');
 
 const server = http.createServer( (req, res) => {
-    // const q = url.parse(req.url, true);
-    // const filename = '.' + q.pathname;
-    let filePath = path.join(req.url === '/' ? 'index.html' : req.url);
-    
-    let extname = path.extname(filePath);
 
-    let contentType = 'text/html';
+    res.writeHead("200"); 
+  
+    var parsedURL = url.parse(req.url); 
+    var parsedPathname = parsedURL.pathname; 
 
-    switch (extname) {
-        case '.js':
-            contentType = 'text/javascript';
-            break;
-        case '.css':
-            contentType = 'text/css';
-            break;
-    }
+    router.checkRoute(parsedPathname, req, res); 
 
-    fs.readFile(filename, (err, data) => {
-        if (err) {
-            if (err.code === 'EN0ENT') {
-                fs.readFile('./404.html', (err, data) => {
-                    res.writeHead(200, {'Content-Type' : 'text/html'});
-                    res.write(data);
-                    return res.end();
-                });
-            } else {
-                res.writeHead(500);
-                res.end(`Server Error: ${err.code}`);
-            }
-        } else {
-            res.writeHead(200, {'Content-Type': contentType});
-            res.write(data);
-            return res.end();
-        }
-    });
-})
+});
 
 const PORT = process.env.PORT || 8080;
 
