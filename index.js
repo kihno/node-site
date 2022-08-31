@@ -6,8 +6,8 @@ const server = http.createServer( (req, res) => {
 
     res.writeHead("200"); 
   
-    var parsedURL = url.parse(req.url); 
-    var parsedPathname = parsedURL.pathname; 
+    let parsedURL = url.parse(req.url); 
+    let parsedPathname = parsedURL.pathname; 
 
     router.checkRoute(parsedPathname, req, res); 
 
